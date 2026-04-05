@@ -1,0 +1,161 @@
+% ***************************************************
+% LaTeX Packages
+% ***************************************************
+% This file defines the document design.
+% Usually it is not necessary to edit this file, but you can use it to change aspects of the design if you want.
+
+%There are essential packages that are contained within the StylesAndSettings/uqthesis.cls which are integral to the template - These must not be deleted.
+
+%The packages below are optional, please add or alter as required.
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+\usepackage{bm}
+\usepackage{upgreek}
+\usepackage{dsfont}
+\usepackage{eucal}
+\usepackage{stmaryrd}
+\usepackage{pifont}
+\usepackage{marvosym}
+\usepackage{blindtext}
+\usepackage{lipsum}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{mathdots}
+\usepackage{simplewick}
+\usepackage{cancel}
+\usepackage{siunitx}
+\usepackage{nicefrac}
+\usepackage[table,dvipsnames]{xcolor}
+\definecolor{airforceblue}{RGB}{93,138,168}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.55}
+\definecolor{cream}{rgb}{1.0,0.99,0.82}
+\definecolor{islamicgreen}{rgb}{0.0,0.56,0.0}
+\definecolor{thmcolor}{rgb}{0.96,0.92,0.86}
+\definecolor{defncolor}{rgb}{0.93,0.96,0.98}
+\definecolor{tipcolor}{rgb}{0.94,0.97,0.94}
+\definecolor{warncolor}{rgb}{0.98,0.94,0.94}
+\definecolor{corcolor}{rgb}{0.96,0.94,0.98}
+\definecolor{packcol}{rgb}{0.09,0.45,0.27}
+\definecolor{methcol}{rgb}{0.16,0.32,0.75}
+\usepackage{graphicx}
+\usepackage{transparent}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage[all]{xy}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{matrix,calc,positioning,arrows.meta,intersections,chains,shapes.geometric,patterns,fpu}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage{chngcntr}
+\usepackage{pdfpages}
+\usepackage{setspace}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{dcolumn}
+\usepackage{varwidth}
+\usepackage{booktabs}
+\usepackage{ragged2e}
+\usepackage{array}
+\usepackage{enumerate}
+\usepackage{mdwlist}
+\usepackage{framed}
+\usepackage{mdframed}
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{skins,breakable,theorems,listings}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\numberwithin{algorithm}{section}
+\usepackage{cite}
+\usepackage{hyperref}
+\usepackage[nameinlink]{cleveref}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=darkblue,
+	citecolor=darkblue,
+	urlcolor=darkblue,
+	breaklinks=true
+}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{condition}{Condition}[section]
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+
+%This defines some macros that implement Latin abbreviations
+
+\newcommand{\via}{\textit{via}} %Italicised via.
+\newcommand{\ie}{\textit{i.e.}} %Literally.
+\newcommand{\eg}{\textit{e.g.}} %For example.
+\newcommand{\etc}{\textit{etc.}} %So on...
+\newcommand{\vv}{\textit{vice versa}} %And the other way around.
+\newcommand{\viz}{\textit{viz}.} %Resulting in.
+\newcommand{\cf}{\textit{cf}.} %See, or 'consistent with'.
+\newcommand{\apr}{\textit{a priori}} %Before the fact.
+\newcommand{\apo}{\textit{a posteriori}} %After the fact.
+\newcommand{\vivo}{\textit{in vivo}} %In the flesh.
+\newcommand{\situ}{\textit{in situ}} %On location.
+\newcommand{\silico}{\textit{in silico}} %Simulation.
+\newcommand{\vitro}{\textit{in vitro}} %In glass.
+\newcommand{\vs}{\textit{versus}} %James \vs{} Pete.
+\newcommand{\ala}{\textit{\`{a} la}} %In the manner of...
+\newcommand{\apriori}{\textit{a priori}} %Before hand.
+\newcommand{\etal}{\textit{et al.}} %And others, with correct punctuation.
+\newcommand{\naive}{na\"\i{}ve} %Queen Amidala is young and \naive{}.
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\DeclarePairedDelimiter\set{\{}{\}}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\DeclarePairedDelimiterX\inner[2]{\langle}{\rangle}{#1, #2}
+
+\providecommand{\mathdefault}[1]{#1}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\gvn}{\mid}  % "given" in conditional probability, e.g. P(A \gvn B)
+\newcommand{\matX}{\mathcal{X}}  % state space (e.g. $\matX \subseteq \R^n$)
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\tr}{\mathrm{tr}}
+\newcommand{\indsim}{\stackrel{\mathrm{ind}}{\sim}}
+\newcommand{\iidsim}{\stackrel{\mathrm{iid}}{\sim}}
+\newcommand{\la}{\leftarrow}
+% Distribution names (for notation tables / "X \sim \Ber(p)")
+\newcommand{\Ber}{\mathrm{Ber}}
+\newcommand{\Bin}{\mathrm{Bin}}
+\newcommand{\Exp}{\mathrm{Exp}}
+\newcommand{\Gam}{\mathrm{Gamma}}
+\newcommand{\Geo}{\mathrm{Geo}}
+\newcommand{\Nor}{\mathcal{N}}
+\newcommand{\Poi}{\mathrm{Po}}
+\newcommand{\Unif}{\mathrm{Unif}}
+
+\newcommand{\bx}{\boldsymbol{x}}
+\newcommand{\by}{\boldsymbol{y}}
+\newcommand{\bz}{\boldsymbol{z}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bmu}{\boldsymbol{\mu}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bX}{\boldsymbol{X}}
+\newcommand{\bW}{\boldsymbol{W}}
