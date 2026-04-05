@@ -1,0 +1,276 @@
+\documentclass[11pt, a4paper]{article}
+
+\input{../StylesAndSettings/LaTexPackages.tex}
+
+\definecolor{uqpurple}{RGB}{81,36,122}
+\titleformat{\section}{\Large\bfseries\color{uqpurple}}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries\color{uqpurple}}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{uqpurple}}{\thesubsubsection}{1em}{}%
+
+\onehalfspacing{}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+
+\title{\vspace{-2cm}\textbf{\color{uqpurple}RBUS6923}\\ \Large Data Analysis Assignment}
+\author{\textbf{Zac Kienzle} \\ The University of Queensland}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\vspace{-1cm}
+\rule{\textwidth}{0.4pt}
+
+\tableofcontents
+
+\clearpage
+
+\section{Question 1}
+
+\subsection{Regression Estimation}
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q1a_regression.tex}
+	\caption{OLS regression results for equation~(Q1a).}\label{tab:q1a}
+\end{table}
+
+The estimated model is \(\hat{Y}_i = -29.47 + 2.95X_{1,i} + 4.63X_{2,i} + 0.022X_{3,i} + 0.012X_{4,i}\). The model explains approximately 63.1\% of the variation in \(Y\) (\(R^2 = 0.631\), adjusted \(R^2 = 0.484\)). The overall model is statistically significant at the 5\% level (\(F = 4.282\), \(p = 0.028\)), indicating that the explanatory variables jointly contribute to explaining variation in the dependent variable. Of the individual coefficients, only \(X_4\) is statistically significant at the 5\% level (\(t = 2.493\), \(p = 0.032\)); the remaining three variables are individually insignificant. The condition number is large (\(2.08 \times 10^4\)), suggesting the possibility of multicollinearity among the regressors.
+
+\subsection{Hypothesis Tests}
+
+The theory predicts specific values for each slope coefficient. Each hypothesis is tested separately using a two-sided \(t\)-test with \(H_0\colon \beta_j = \beta_j^*\) and \(H_1\colon \beta_j \neq \beta_j^*\), where \(t = (\hat{\beta}_j - \beta_j^*) / \mathrm{se}(\hat{\beta}_j)\) with 10 degrees of freedom.
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q1b_ttest_X1.tex}
+	\caption{Hypothesis test: \(H_0\colon \beta_1 = 2.00\).}\label{tab:q1b_x1}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q1b_ttest_X2.tex}
+	\caption{Hypothesis test: \(H_0\colon \beta_2 = 7.50\).}\label{tab:q1b_x2}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q1b_ttest_X3.tex}
+	\caption{Hypothesis test: \(H_0\colon \beta_3 = 0.01\).}\label{tab:q1b_x3}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q1b_ttest_X4.tex}
+	\caption{Hypothesis test: \(H_0\colon \beta_4 = 0.05\).}\label{tab:q1b_x4}
+\end{table}
+
+Testing each hypothesis at \(\alpha = 0.05\):
+
+\begin{enumerate}[(i)]
+	\item \(H_0\colon \beta_1 = 2.00\). The test statistic is \(t = (2.947 - 2.00)/2.125 = 0.446\) with \(p = 0.665\). We fail to reject the null. The estimated coefficient is consistent with the theoretically predicted value of 2.00.
+	\item \(H_0\colon \beta_2 = 7.50\). The test statistic is \(t = (4.630 - 7.50)/4.674 = -0.614\) with \(p = 0.553\). We fail to reject the null. The data does not provide sufficient evidence to distinguish \(\hat{\beta}_2\) from the hypothesised value of 7.50.
+	\item \(H_0\colon \beta_3 = 0.01\). The test statistic is \(t = (0.022 - 0.01)/0.012 = 0.953\) with \(p = 0.363\). We fail to reject the null. The estimated coefficient is consistent with the theoretically predicted value of 0.01.
+	\item \(H_0\colon \beta_4 = 0.05\). The test statistic is \(t = (0.012 - 0.05)/0.005 = -7.851\) with \(p < 0.001\). We reject the null. The estimated coefficient \(\hat{\beta}_4 = 0.012\) is statistically distinct from the hypothesised value of 0.05 at any conventional significance level.
+\end{enumerate}
+
+In summary, the data supports the theoretical predictions for \(\beta_1\), \(\beta_2\), and \(\beta_3\), but not for \(\beta_4\).
+
+\subsection{Quadratic Functional Form}
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q1c_quadratic.tex}
+	\caption{Quadratic model results for equation~(Q1c).}\label{tab:q1c}
+\end{table}
+
+The quadratic specification \(\hat{Y}_i = 68.61 - 0.015X_{4,i} + 5.506 \times 10^{-6}X_{4,i}^2\) is poorly specified. Neither the linear term (\(p = 0.767\)) nor the quadratic term (\(p = 0.643\)) is individually significant, and the overall model fails to achieve global significance (\(F = 1.310\), \(p = 0.306\)). The \(R^2\) of 0.179 represents a substantial deterioration from the 0.631 achieved in the four-variable linear model in \cref{tab:q1a}. These results provide no evidence that the relationship between \(Y\) and \(X_4\) is non-linear. The linear functional form estimated in Part~(a) is the preferred specification.
+
+\begin{figure}[H]
+	\centering
+	\input{outputs/q1_resid.pgf}
+	\caption{Residuals versus fitted values for the linear model (Q1a). The loess curve shows no systematic non-linear pattern, confirming the adequacy of the linear functional form.}\label{fig:q1_resid}
+\end{figure}
+
+\section{Question 2}
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q2_regression.tex}
+	\caption{Market valuation model results for equation~(Q2).}\label{tab:q2_reg}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q2_ttest_ece.tex}
+	\caption{\(t\)-test for \(\beta_5 + \beta_6 = 0\).}\label{tab:q2_ttest}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q2_ftest_ece.tex}
+	\caption{\(F\)-test for \(\beta_5 + \beta_6 = 0\).}\label{tab:q2_ftest}
+\end{table}
+
+The model achieves an \(R^2\) of 0.773 and is highly significant overall (\(F = 120.5\), \(p < 0.001\)). The three predictions of Clarkson, Li, and Richardson~\cite{clarkson_market_2004} are evaluated as follows.
+
+\textbf{Prediction 1} posits that ECEs of low polluting firms are valued as assets (\(\mathrm{NPV} > 0\)). For low polluters (\(\mathrm{POLLUTE} = 0\)), the market valuation of ECE is captured by \(\beta_5\) alone. The estimated coefficient is \(\hat{\beta}_5 = 0.860\) (\(t = 1.079\), \(p = 0.282\)), which is positive but statistically indistinguishable from zero. The data therefore does not provide significant support for the prediction that the market views low-polluter ECE as a value-creating asset.
+
+\textbf{Prediction 2} posits that ECEs of high polluting firms have zero net present value (\(\mathrm{NPV} = 0\)). For high polluters (\(\mathrm{POLLUTE} = 1\)), the market valuation of ECE is \(\beta_5 + \beta_6\). The linear combination yields \(0.860 + (-3.443) = -2.583\), which is significantly different from zero (\(t = -3.207\), \(p = 0.002\); \(F = 10.29\), \(p = 0.002\)). Because the net coefficient is significantly negative rather than zero, the data contradicts the prediction. The market appears to penalise environmental capital expenditure by high polluting firms, suggesting the market perceives such spending as value-destroying rather than merely having zero net benefit.
+
+\textbf{Prediction 3} posits that high polluting firms have unbooked environmental liabilities, implying a lower market value all else equal. This is tested via the POLLUTE indicator coefficient \(\beta_7\). The estimate is \(\hat{\beta}_7 = -912.23\) (\(t = -1.961\), \(p = 0.051\)), which is marginally significant at the 10\% level but falls just short of the conventional 5\% threshold. This provides weak support for the prediction that high polluting firms carry implicit environmental liabilities not captured by the balance sheet.
+
+\clearpage
+
+\section{Question 3}
+
+\subsection{OLS Regression}
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q3a_ols.tex}
+	\caption{OLS regression results for equation~(Q3).}\label{tab:q3a}
+\end{table}
+
+Under a naive OLS specification with 12,289 firm-year observations, the assurance decision is highly valuation relevant. The coefficient on Assure is \(\hat{\delta}_5 = 2061.76\) (\(t = 4.126\), \(p < 0.001\)), indicating that firms with assured CSR reports are associated with market values approximately \$2,062 million higher, controlling for book value, earnings, CSR performance, and CSR disclosure. Book value (\(t = 92.09\)) and earnings (\(t = 4.43\)) are also highly significant. CSR performance is marginally significant (\(p = 0.031\)), while CSR disclosure is not (\(p = 0.791\)).
+
+\subsection{Clustered Standard Errors}
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q3b_clustered.tex}
+	\caption{Regression with standard errors clustered by industry.}\label{tab:q3b}
+\end{table}
+
+Clustering standard errors by industry leaves all point estimates identical to Part~(a) but substantially inflates the standard errors. The key changes are as follows. The standard error for Assure increases from 499.75 to 1324.30, rendering the coefficient statistically insignificant (\(z = 1.557\), \(p = 0.120\)). Earnings shifts from significant (\(p < 0.001\)) to marginally significant (\(p = 0.084\)). CSR performance becomes insignificant (\(p = 0.253\)). Only book value retains strong significance (\(z = 56.11\), \(p < 0.001\)).
+
+These differences are expected. Naive OLS assumes that observations are independent and identically distributed. When firms within the same industry share common unobserved shocks, the residuals are correlated within clusters. The naive standard errors understate the true sampling variability, artificially inflating \(t\)-statistics. Clustering corrects for this intra-industry dependence by relaxing the independence assumption, producing conservative and more reliable inference.
+
+\subsection{Country Fixed Effects}
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q3c_fixed_effects.tex}
+	\caption{Regression with country fixed effects and clustered standard errors.}\label{tab:q3c}
+\end{table}
+
+Adding country fixed effects to absorb unobserved, time-invariant national heterogeneity produces only a marginal change in model fit (\(R^2\) increases from 0.511 to 0.513). The Assure coefficient shifts slightly to 1979.72 (\(z = 1.415\), \(p = 0.157\)) and remains statistically insignificant, corroborating the conclusion from Part~(b). Two country dummies are individually significant (country 8 and country 9), suggesting systematic cross-country valuation differences. The core variables of interest are largely unaffected by the inclusion of fixed effects, indicating that the insignificance of the assurance variable under clustered standard errors is not an artefact of omitted country-level confounders.
+
+\begin{figure}[H]
+	\centering
+	\input{outputs/q3_coefs.pgf}
+	\caption{CSR assurance coefficient estimates with 95\% confidence intervals across specifications. The interval includes zero under clustered and fixed-effect specifications.}\label{fig:q3_coefs}
+\end{figure}
+
+\clearpage
+
+\section{Question 4}
+
+\subsection{January Effect}
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q41_small.tex}
+	\caption{January effect regression for small stocks.}\label{tab:q41_small}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q41_large.tex}
+	\caption{January effect regression for large stocks.}\label{tab:q41_large}
+\end{table}
+
+The model \(R_{p,t} - R_{f,t} = \alpha_1 + \alpha_2 D_{\mathrm{Jan},t} + \beta_p(R_{M,t} - R_{f,t}) + \varepsilon_t\) is estimated separately for each portfolio using the equal-weighted market return. For the small stock portfolio, the January dummy coefficient is \(\hat{\alpha}_2 = 0.0528\) (\(t = 2.849\), \(p = 0.005\)), indicating a statistically significant incremental abnormal return of approximately 5.3 percentage points in January. The intercept is also significant (\(\hat{\alpha}_1 = 0.0535\), \(p < 0.001\)), reflecting a positive average abnormal return in non-January months. The portfolio beta is \(\hat{\beta}_p = 1.713\), consistent with the higher systematic risk of small capitalisation stocks.
+
+For the large stock portfolio, the January dummy is \(\hat{\alpha}_2 = -0.0015\) (\(t = -0.222\), \(p = 0.824\)), which is statistically insignificant. There is no evidence of a January effect for large stocks. The intercept is significantly negative (\(\hat{\alpha}_1 = -0.0057\), \(p = 0.006\)), indicating a small negative abnormal return in non-January months. The portfolio beta is \(\hat{\beta}_p = 0.677\), reflecting the lower systematic risk of large stocks relative to the equal-weighted market.
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q41_pooled.tex}
+	\caption{Pooled regression for small firm and differential January effects.}\label{tab:q41_pooled}
+\end{table}
+
+To formally test for a small firm effect and a differential January effect, the data for both portfolios are pooled and the following model is estimated:
+\begin{equation*}
+	\begin{aligned}
+		R_{p,t} - R_{f,t} ={} & \gamma_0 + \gamma_1 D_{\mathrm{Jan},t} + \gamma_2 D_{\mathrm{Sml},t} + \gamma_3 (D_{\mathrm{Jan},t} \times D_{\mathrm{Sml},t}) \\
+		                      & + \beta_1 (R_{M,t} - R_{f,t}) + \beta_2 \bigl((R_{M,t} - R_{f,t}) \times D_{\mathrm{Sml},t}\bigr) + \varepsilon_t
+	\end{aligned}
+\end{equation*}
+
+The coefficient \(\hat{\gamma}_2 = 0.0592\) (\(t = 10.24\), \(p < 0.001\)) confirms a significant small firm effect: small stocks earn approximately 5.9 percentage points higher abnormal returns per month than large stocks, after controlling for market risk. The interaction term \(\hat{\gamma}_3 = 0.0543\) (\(t = 2.745\), \(p = 0.006\)) confirms that the January effect is significantly larger for small stocks than for large stocks. The market risk interaction \(\hat{\beta}_2 = 1.036\) (\(p < 0.001\)) reflects the higher beta of the small stock portfolio.
+
+\subsection{July Effect}
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q42_small.tex}
+	\caption{January and July effect regression for small stocks.}\label{tab:q42_small}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q42_large.tex}
+	\caption{January and July effect regression for large stocks.}\label{tab:q42_large}
+\end{table}
+
+To test for both a January and a July effect, the intercept is suppressed and three mutually exclusive dummy variables are included:
+\begin{equation*}
+	R_{p,t} - R_{f,t} = \delta_1 D_{\mathrm{Jan},t} + \delta_2 D_{\mathrm{Jul},t} + \delta_3 D_{\mathrm{Oth},t} + \beta_p(R_{M,t} - R_{f,t}) + \varepsilon_t
+\end{equation*}
+where \(D_{\mathrm{Jan},t}\), \(D_{\mathrm{Jul},t}\), and \(D_{\mathrm{Oth},t}\) are indicator variables for January, July, and all other months respectively. The value-weighted market return is used for \(R_{M,t}\). Each coefficient directly measures the average abnormal return in the corresponding period.
+
+For small stocks, all three period coefficients are highly significant: January (\(\hat{\delta}_1 = 0.1589\), \(p < 0.001\)), July (\(\hat{\delta}_2 = 0.1728\), \(p < 0.001\)), and other months (\(\hat{\delta}_3 = 0.0616\), \(p < 0.001\)). The July abnormal return of 17.3\% exceeds the January abnormal return of 15.9\%, both of which are substantially larger than the 6.2\% earned in other months. This is consistent with tax-loss selling around the Australian 30 June fiscal year-end driving a July rebound effect in small capitalisation stocks.
+
+For large stocks, none of the three period coefficients are individually significant: January (\(\hat{\delta}_1 = 0.0017\), \(p = 0.458\)), July (\(\hat{\delta}_2 = 0.0030\), \(p = 0.199\)), and other months (\(\hat{\delta}_3 = -0.0009\), \(p = 0.203\)). The large stock portfolio exhibits no seasonal abnormal return patterns after controlling for market risk.
+
+\begin{figure}[H]
+	\centering
+	\input{outputs/q4_seasonal.pgf}
+	\caption{Seasonal abnormal returns for small and large stock portfolios. Small stocks exhibit significant January and July effects; large stocks show no seasonal pattern.}\label{fig:q4_seasonal}
+\end{figure}
+
+\subsection{Pre and Post Crash Comparison}
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q43_regression.tex}
+	\caption{Sub-period January effect regression.}\label{tab:q43_reg}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q43_ttest_jan.tex}
+	\caption{Test for difference in January returns across sub-periods.}\label{tab:q43_jan}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\input{outputs/q43_ttest_oth.tex}
+	\caption{Test for difference in non-January returns across sub-periods.}\label{tab:q43_oth}
+\end{table}
+
+To test whether the January effect changed after the October 1987 crash, the year 1987 is excluded and the sample is partitioned into Period~1 (January 1974 to December 1986) and Period~2 (January 1988 to December 2000). The intercept is suppressed to obtain direct estimates of mean raw returns for the value-weighted market index:
+\begin{equation*}
+	R_{M,t} = \lambda_1 D_{1,\mathrm{Jan},t} + \lambda_2 D_{1,\mathrm{Oth},t} + \lambda_3 D_{2,\mathrm{Jan},t} + \lambda_4 D_{2,\mathrm{Oth},t} + \varepsilon_t
+\end{equation*}
+where \(D_{1,\mathrm{Jan},t}\) and \(D_{1,\mathrm{Oth},t}\) are indicators for January and non-January months in Period~1, and \(D_{2,\mathrm{Jan},t}\) and \(D_{2,\mathrm{Oth},t}\) are the corresponding indicators for Period~2. Each coefficient directly measures the average raw return in that period-month category.
+
+The estimates are: (i)~average January return in Period~1: \(\hat{\lambda}_1 = 4.90\%\) (\(t = 3.679\), \(p < 0.001\)); (ii)~average non-January return in Period~1: \(\hat{\lambda}_2 = 1.42\%\) (\(t = 3.523\), \(p < 0.001\)); (iii)~average January return in Period~2: \(\hat{\lambda}_3 = 0.83\%\) (\(t = 0.625\), \(p = 0.532\)); and (iv)~average non-January return in Period~2: \(\hat{\lambda}_4 = 0.93\%\) (\(t = 2.315\), \(p = 0.021\)).
+
+\begin{figure}[H]
+	\centering
+	\input{outputs/q4_structural.pgf}
+	\caption{Average monthly returns by sub-period. The January effect diminished substantially after the 1987 crash while non-January returns remained stable.}\label{fig:q4_structural}
+\end{figure}
+
+To test for structural change:
+
+The first hypothesis tests whether the January effect differs across sub-periods: \(H_0\colon \lambda_1 = \lambda_3\). The difference is \(\hat{\lambda}_1 - \hat{\lambda}_3 = 4.90\% - 0.83\% = 4.07\%\) with \(t = 2.159\) and \(p = 0.032\). We reject the null at the 5\% level. The January effect was significantly larger in the pre-crash period, declining from a substantial 4.9\% average return to an insignificant 0.83\% in the post-crash period. This is consistent with the hypothesis that market microstructure changes and increased institutional participation following the crash reduced the magnitude of the January anomaly.
+
+The second hypothesis tests whether non-January returns differ across sub-periods: \(H_0\colon \lambda_2 = \lambda_4\). The difference is \(\hat{\lambda}_2 - \hat{\lambda}_4 = 1.42\% - 0.93\% = 0.49\%\) with \(t = 0.854\) and \(p = 0.394\). We fail to reject the null. The baseline non-January market returns remained statistically invariant across the two periods, indicating that the structural change was specific to the January seasonal pattern rather than reflecting a general shift in market returns.
+
+\bibliographystyle{../StylesAndSettings/abbrv-unsrt}
+\bibliography{../References/References}
+
+\end{document}
